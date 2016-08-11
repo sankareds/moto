@@ -112,6 +112,7 @@ class BaseResponse(_TemplateEnvironmentMixin):
             for key, value in request.form.items():
                 querystring[key] = [value, ]
 
+
         if not querystring:
             querystring.update(parse_qs(urlparse(full_url).query, keep_blank_values=True))
         if not querystring:
