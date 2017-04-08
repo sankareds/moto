@@ -64,7 +64,7 @@ else:
 
 
 setup(
-    name='moto',
+    name='moto-ext',
     version=get_version(),
     description='A library that allows your python tests to easily'
                 ' mock out the boto library',
