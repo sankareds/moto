@@ -166,6 +166,18 @@ class CloudWatchResponse(BaseResponse):
     def set_alarm_state(self):
         raise NotImplementedError()
 
+    # TODO (whummer): temporary hack until get_metric_statistics is available in moto
+    def get_metric_values(self):
+        import json
+        cloudwatch_backend = cloudwatch_backends[self.region]
+        metrics = [{
+            'Namespace': m.namespace,
+            'Name': m.name,
+            'Value': m.value,
+            'Dimensions': [{'Name': d.name, 'Value': d.value} for d in m.dimensions]}
+            for m in cloudwatch_backend.get_all_metrics()]
+        return json.dumps(metrics)
+
 
 PUT_METRIC_ALARM_TEMPLATE = """<PutMetricAlarmResponse xmlns="http://monitoring.amazonaws.com/doc/2010-08-01/">
    <ResponseMetadata>
