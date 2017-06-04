@@ -10,7 +10,7 @@ from boto3.session import Session
 import responses
 from moto.core import BaseBackend, BaseModel
 from .utils import create_id
-from .exceptions import StageNotFoundException, ApiKeyNotFoundException
+from .exceptions import StageNotFoundException, ApiKeyNotFoundException, MethodNotFoundException
 
 STAGE_URL = "https://{api_id}.execute-api.{region_name}.amazonaws.com/{stage_name}"
 
@@ -23,6 +23,16 @@ class Deployment(BaseModel, dict):
         self['stageName'] = name
         self['description'] = description
         self['createdDate'] = int(time.time())
+
+    @classmethod
+    def create_from_cloudformation_json(cls, resource_name, cloudformation_json, region_name):
+        properties = cloudformation_json['Properties']
+        spec = {
+            'deployment_id': create_id(),
+            'name': properties['StageName'],
+            'description': properties.get('Description')
+        }
+        return Deployment(**spec)
 
 
 class IntegrationResponse(BaseModel, dict):
@@ -92,6 +102,15 @@ class Method(BaseModel, dict):
     def delete_response(self, response_code):
         return self.method_responses.pop(response_code)
 
+    @classmethod
+    def create_from_cloudformation_json(cls, resource_name, cloudformation_json, region_name):
+        properties = cloudformation_json['Properties']
+        spec = {
+            'method_type': properties['HttpMethod'],
+            'authorization_type': properties['AuthorizationType']
+        }
+        return Method(**spec)
+
 
 class Resource(BaseModel):
 
@@ -151,7 +170,10 @@ class Resource(BaseModel):
         return method
 
     def get_method(self, method_type):
-        return self.resource_methods[method_type]
+        method = self.resource_methods.get(method_type)
+        if not method:
+            raise MethodNotFoundException()
+        return method
 
     def add_integration(self, method_type, integration_type, uri, request_templates=None):
         integration = Integration(
@@ -164,6 +186,18 @@ class Resource(BaseModel):
 
     def delete_integration(self, method_type):
         return self.resource_methods[method_type].pop('methodIntegration')
+
+    @classmethod
+    def create_from_cloudformation_json(cls, resource_name, cloudformation_json, region_name):
+        properties = cloudformation_json['Properties']
+        spec = {
+            'id': create_id(),
+            'region_name': 'us-east-1',
+            'api_id': properties['RestApiId'],
+            'path_part': properties['PathPart'],
+            'parent_id': properties['ParentId']
+        }
+        return Resource(**spec)
 
 
 class Stage(BaseModel, dict):
@@ -424,6 +458,26 @@ class RestAPI(BaseModel):
     def delete_deployment(self, deployment_id):
         return self.deployments.pop(deployment_id)
 
+    def get_cfn_attribute(self, attribute_name):
+        from moto.cloudformation.exceptions import UnformattedGetAttTemplateException
+        if attribute_name == 'RootResourceId':
+            for res_id, res_obj in self.resources.items():
+                if res_obj.path_part == '/' and not res_obj.parent_id:
+                    return res_id
+            raise Exception('Unable to find root resource for API %s' % self)
+        raise UnformattedGetAttTemplateException()
+
+    @classmethod
+    def create_from_cloudformation_json(cls, resource_name, cloudformation_json, region_name):
+        properties = cloudformation_json['Properties']
+        spec = {
+            'id': create_id(),
+            'region_name': 'us-east-1',
+            'name': properties['Name'],
+            'description': properties.get('Description')
+        }
+        return RestAPI(**spec)
+
 
 class APIGatewayBackend(BaseBackend):
 
@@ -493,8 +547,7 @@ class APIGatewayBackend(BaseBackend):
         stage = api.stages.get(stage_name)
         if stage is None:
             raise StageNotFoundException()
-        else:
-            return stage
+        return stage
 
     def get_stages(self, function_id):
         api = self.get_rest_api(function_id)
