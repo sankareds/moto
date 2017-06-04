@@ -6,6 +6,7 @@ import copy
 import warnings
 import re
 
+from moto.apigateway import models as apigateway_models
 from moto.autoscaling import models as autoscaling_models
 from moto.awslambda import models as lambda_models
 from moto.cloudwatch import models as cloudwatch_models
@@ -29,12 +30,17 @@ from .exceptions import MissingParameterError, UnformattedGetAttTemplateExceptio
 from boto.cloudformation.stack import Output
 
 MODEL_MAP = {
+    "AWS::ApiGateway::Deployment": apigateway_models.Deployment,
+    "AWS::ApiGateway::Method": apigateway_models.Method,
+    "AWS::ApiGateway::Resource": apigateway_models.Resource,
+    "AWS::ApiGateway::RestApi": apigateway_models.RestAPI,
     "AWS::AutoScaling::AutoScalingGroup": autoscaling_models.FakeAutoScalingGroup,
     "AWS::AutoScaling::LaunchConfiguration": autoscaling_models.FakeLaunchConfiguration,
     "AWS::DynamoDB::Table": dynamodb_models.Table,
     "AWS::Kinesis::Stream": kinesis_models.Stream,
     "AWS::Lambda::EventSourceMapping": lambda_models.EventSourceMapping,
     "AWS::Lambda::Function": lambda_models.LambdaFunction,
+    "AWS::Lambda::Permission": lambda_models.LambdaPermission,
     "AWS::Lambda::Version": lambda_models.LambdaVersion,
     "AWS::EC2::EIP": ec2_models.ElasticAddress,
     "AWS::EC2::Instance": ec2_models.Instance,
