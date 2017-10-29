@@ -266,6 +266,7 @@
 - [ ] describe_platform_version
 - [ ] list_available_solution_stacks
 - [ ] list_platform_versions
+- [ ] list_tags_for_resource
 - [ ] rebuild_environment
 - [ ] request_environment_info
 - [ ] restart_app_server
@@ -277,6 +278,7 @@
 - [ ] update_application_version
 - [ ] update_configuration_template
 - [ ] update_environment
+- [ ] update_tags_for_resource
 - [ ] validate_configuration_settings
 
 ## health - 0% implemented
@@ -290,16 +292,22 @@
 ## waf-regional - 0% implemented
 - [ ] associate_web_acl
 - [ ] create_byte_match_set
+- [ ] create_geo_match_set
 - [ ] create_ip_set
 - [ ] create_rate_based_rule
+- [ ] create_regex_match_set
+- [ ] create_regex_pattern_set
 - [ ] create_rule
 - [ ] create_size_constraint_set
 - [ ] create_sql_injection_match_set
 - [ ] create_web_acl
 - [ ] create_xss_match_set
 - [ ] delete_byte_match_set
+- [ ] delete_geo_match_set
 - [ ] delete_ip_set
 - [ ] delete_rate_based_rule
+- [ ] delete_regex_match_set
+- [ ] delete_regex_pattern_set
 - [ ] delete_rule
 - [ ] delete_size_constraint_set
 - [ ] delete_sql_injection_match_set
@@ -309,9 +317,12 @@
 - [ ] get_byte_match_set
 - [ ] get_change_token
 - [ ] get_change_token_status
+- [ ] get_geo_match_set
 - [ ] get_ip_set
 - [ ] get_rate_based_rule
 - [ ] get_rate_based_rule_managed_keys
+- [ ] get_regex_match_set
+- [ ] get_regex_pattern_set
 - [ ] get_rule
 - [ ] get_sampled_requests
 - [ ] get_size_constraint_set
@@ -320,8 +331,11 @@
 - [ ] get_web_acl_for_resource
 - [ ] get_xss_match_set
 - [ ] list_byte_match_sets
+- [ ] list_geo_match_sets
 - [ ] list_ip_sets
 - [ ] list_rate_based_rules
+- [ ] list_regex_match_sets
+- [ ] list_regex_pattern_sets
 - [ ] list_resources_for_web_acl
 - [ ] list_rules
 - [ ] list_size_constraint_sets
@@ -329,8 +343,11 @@
 - [ ] list_web_acls
 - [ ] list_xss_match_sets
 - [ ] update_byte_match_set
+- [ ] update_geo_match_set
 - [ ] update_ip_set
 - [ ] update_rate_based_rule
+- [ ] update_regex_match_set
+- [ ] update_regex_pattern_set
 - [ ] update_rule
 - [ ] update_size_constraint_set
 - [ ] update_sql_injection_match_set
@@ -360,18 +377,18 @@
 - [ ] stop_stream_encryption
 - [ ] update_shard_count
 
-## polly - 0% implemented
-- [ ] delete_lexicon
-- [ ] describe_voices
-- [ ] get_lexicon
-- [ ] list_lexicons
-- [ ] put_lexicon
+## polly - 83% implemented
+- [X] delete_lexicon
+- [X] describe_voices
+- [X] get_lexicon
+- [X] list_lexicons
+- [X] put_lexicon
 - [ ] synthesize_speech
 
-## autoscaling - 15% implemented
-- [ ] attach_instances
-- [ ] attach_load_balancer_target_groups
-- [ ] attach_load_balancers
+## autoscaling - 32% implemented
+- [X] attach_instances
+- [X] attach_load_balancer_target_groups
+- [X] attach_load_balancers
 - [ ] complete_lifecycle_action
 - [ ] create_auto_scaling_group
 - [X] create_launch_configuration
@@ -391,8 +408,8 @@
 - [X] describe_launch_configurations
 - [ ] describe_lifecycle_hook_types
 - [ ] describe_lifecycle_hooks
-- [ ] describe_load_balancer_target_groups
-- [ ] describe_load_balancers
+- [X] describe_load_balancer_target_groups
+- [X] describe_load_balancers
 - [ ] describe_metric_collection_types
 - [ ] describe_notification_configurations
 - [X] describe_policies
@@ -401,9 +418,9 @@
 - [ ] describe_scheduled_actions
 - [ ] describe_tags
 - [ ] describe_termination_policy_types
-- [ ] detach_instances
-- [ ] detach_load_balancer_target_groups
-- [ ] detach_load_balancers
+- [X] detach_instances
+- [X] detach_load_balancer_target_groups
+- [X] detach_load_balancers
 - [ ] disable_metrics_collection
 - [ ] enable_metrics_collection
 - [ ] enter_standby
@@ -416,7 +433,7 @@
 - [ ] record_lifecycle_action_heartbeat
 - [ ] resume_processes
 - [X] set_desired_capacity
-- [ ] set_instance_health
+- [X] set_instance_health
 - [ ] set_instance_protection
 - [ ] suspend_processes
 - [ ] terminate_instance_in_auto_scaling_group
@@ -783,7 +800,7 @@
 - [ ] update_user_profile
 - [ ] update_volume
 
-## ses - 15% implemented
+## ses - 13% implemented
 - [ ] clone_receipt_rule_set
 - [ ] create_configuration_set
 - [ ] create_configuration_set_event_destination
@@ -791,6 +808,7 @@
 - [ ] create_receipt_filter
 - [ ] create_receipt_rule
 - [ ] create_receipt_rule_set
+- [ ] create_template
 - [ ] delete_configuration_set
 - [ ] delete_configuration_set_event_destination
 - [ ] delete_configuration_set_tracking_options
@@ -799,6 +817,7 @@
 - [ ] delete_receipt_filter
 - [ ] delete_receipt_rule
 - [ ] delete_receipt_rule_set
+- [ ] delete_template
 - [ ] delete_verified_email_address
 - [ ] describe_active_receipt_rule_set
 - [ ] describe_configuration_set
@@ -811,17 +830,21 @@
 - [ ] get_identity_verification_attributes
 - [X] get_send_quota
 - [ ] get_send_statistics
+- [ ] get_template
 - [ ] list_configuration_sets
 - [X] list_identities
 - [ ] list_identity_policies
 - [ ] list_receipt_filters
 - [ ] list_receipt_rule_sets
+- [ ] list_templates
 - [X] list_verified_email_addresses
 - [ ] put_identity_policy
 - [ ] reorder_receipt_rule_set
 - [ ] send_bounce
+- [ ] send_bulk_templated_email
 - [X] send_email
 - [X] send_raw_email
+- [ ] send_templated_email
 - [ ] set_active_receipt_rule_set
 - [ ] set_identity_dkim_enabled
 - [ ] set_identity_feedback_forwarding_enabled
@@ -829,23 +852,25 @@
 - [ ] set_identity_mail_from_domain
 - [ ] set_identity_notification_topic
 - [ ] set_receipt_rule_position
+- [ ] test_render_template
 - [ ] update_configuration_set_event_destination
 - [ ] update_configuration_set_tracking_options
 - [ ] update_receipt_rule
+- [ ] update_template
 - [ ] verify_domain_dkim
 - [ ] verify_domain_identity
 - [X] verify_email_address
 - [X] verify_email_identity
 
-## logs - 0% implemented
+## logs - 24% implemented
 - [ ] associate_kms_key
 - [ ] cancel_export_task
 - [ ] create_export_task
-- [ ] create_log_group
-- [ ] create_log_stream
+- [X] create_log_group
+- [X] create_log_stream
 - [ ] delete_destination
-- [ ] delete_log_group
-- [ ] delete_log_stream
+- [X] delete_log_group
+- [X] delete_log_stream
 - [ ] delete_metric_filter
 - [ ] delete_resource_policy
 - [ ] delete_retention_policy
@@ -853,17 +878,17 @@
 - [ ] describe_destinations
 - [ ] describe_export_tasks
 - [ ] describe_log_groups
-- [ ] describe_log_streams
+- [X] describe_log_streams
 - [ ] describe_metric_filters
 - [ ] describe_resource_policies
 - [ ] describe_subscription_filters
 - [ ] disassociate_kms_key
-- [ ] filter_log_events
-- [ ] get_log_events
+- [X] filter_log_events
+- [X] get_log_events
 - [ ] list_tags_log_group
 - [ ] put_destination
 - [ ] put_destination_policy
-- [ ] put_log_events
+- [X] put_log_events
 - [ ] put_metric_filter
 - [ ] put_resource_policy
 - [ ] put_retention_policy
@@ -930,7 +955,7 @@
 - [ ] put_telemetry_records
 - [ ] put_trace_segments
 
-## ec2 - 39% implemented
+## ec2 - 40% implemented
 - [ ] accept_reserved_instances_exchange_quote
 - [X] accept_vpc_peering_connection
 - [X] allocate_address
@@ -1129,13 +1154,14 @@
 - [X] modify_network_interface_attribute
 - [ ] modify_reserved_instances
 - [ ] modify_snapshot_attribute
-- [ ] modify_spot_fleet_request
+- [X] modify_spot_fleet_request
 - [X] modify_subnet_attribute
 - [ ] modify_volume
 - [ ] modify_volume_attribute
 - [X] modify_vpc_attribute
 - [ ] modify_vpc_endpoint
 - [ ] modify_vpc_peering_connection_options
+- [ ] modify_vpc_tenancy
 - [ ] monitor_instances
 - [ ] move_address_to_vpc
 - [ ] purchase_host_reservation
@@ -1177,6 +1203,7 @@
 - [ ] add_tags
 - [ ] create_elasticsearch_domain
 - [ ] delete_elasticsearch_domain
+- [ ] delete_elasticsearch_service_role
 - [ ] describe_elasticsearch_domain
 - [ ] describe_elasticsearch_domain_config
 - [ ] describe_elasticsearch_domains
@@ -1194,6 +1221,7 @@
 - [ ] batch_delete_partition
 - [ ] batch_delete_table
 - [ ] batch_get_partition
+- [ ] batch_stop_job_run
 - [ ] create_classifier
 - [ ] create_connection
 - [ ] create_crawler
@@ -1272,6 +1300,8 @@
 - [ ] delete_adm_channel
 - [ ] delete_apns_channel
 - [ ] delete_apns_sandbox_channel
+- [ ] delete_apns_voip_channel
+- [ ] delete_apns_voip_sandbox_channel
 - [ ] delete_app
 - [ ] delete_baidu_channel
 - [ ] delete_campaign
@@ -1283,6 +1313,8 @@
 - [ ] get_adm_channel
 - [ ] get_apns_channel
 - [ ] get_apns_sandbox_channel
+- [ ] get_apns_voip_channel
+- [ ] get_apns_voip_sandbox_channel
 - [ ] get_app
 - [ ] get_application_settings
 - [ ] get_apps
@@ -1310,6 +1342,8 @@
 - [ ] update_adm_channel
 - [ ] update_apns_channel
 - [ ] update_apns_sandbox_channel
+- [ ] update_apns_voip_channel
+- [ ] update_apns_voip_sandbox_channel
 - [ ] update_application_settings
 - [ ] update_baidu_channel
 - [ ] update_campaign
@@ -1374,19 +1408,19 @@
 - [ ] start_on_demand_replication_run
 - [ ] update_replication_job
 
-## cloudwatch - 20% implemented
+## cloudwatch - 46% implemented
 - [X] delete_alarms
-- [ ] delete_dashboards
+- [X] delete_dashboards
 - [ ] describe_alarm_history
 - [ ] describe_alarms
 - [ ] describe_alarms_for_metric
 - [ ] disable_alarm_actions
 - [ ] enable_alarm_actions
-- [ ] get_dashboard
+- [X] get_dashboard
 - [ ] get_metric_statistics
-- [ ] list_dashboards
+- [X] list_dashboards
 - [ ] list_metrics
-- [ ] put_dashboard
+- [X] put_dashboard
 - [X] put_metric_alarm
 - [X] put_metric_data
 - [ ] set_alarm_state
@@ -1534,23 +1568,28 @@
 - [X] update_container_instances_state
 - [X] update_service
 
-## ecr - 35% implemented
+## ecr - 27% implemented
 - [ ] batch_check_layer_availability
 - [ ] batch_delete_image
 - [ ] batch_get_image
 - [ ] complete_layer_upload
 - [X] create_repository
+- [ ] delete_lifecycle_policy
 - [X] delete_repository
 - [ ] delete_repository_policy
 - [X] describe_images
 - [X] describe_repositories
 - [ ] get_authorization_token
 - [ ] get_download_url_for_layer
+- [ ] get_lifecycle_policy
+- [ ] get_lifecycle_policy_preview
 - [ ] get_repository_policy
 - [ ] initiate_layer_upload
 - [X] list_images
 - [X] put_image
+- [ ] put_lifecycle_policy
 - [ ] set_repository_policy
+- [ ] start_lifecycle_policy_preview
 - [ ] upload_layer_part
 
 ## codebuild - 0% implemented
@@ -1688,6 +1727,7 @@
 - [ ] describe_reserved_db_instances
 - [ ] describe_reserved_db_instances_offerings
 - [ ] describe_source_regions
+- [ ] describe_valid_db_instance_modifications
 - [ ] download_db_log_file_portion
 - [ ] failover_db_cluster
 - [ ] list_tags_for_resource
@@ -1719,16 +1759,16 @@
 - [ ] start_db_instance
 - [ ] stop_db_instance
 
-## acm - 0% implemented
-- [ ] add_tags_to_certificate
-- [ ] delete_certificate
+## acm - 50% implemented
+- [X] add_tags_to_certificate
+- [X] delete_certificate
 - [ ] describe_certificate
-- [ ] get_certificate
+- [X] get_certificate
 - [ ] import_certificate
 - [ ] list_certificates
 - [ ] list_tags_for_certificate
-- [ ] remove_tags_from_certificate
-- [ ] request_certificate
+- [X] remove_tags_from_certificate
+- [X] request_certificate
 - [ ] resend_validation_email
 
 ## elasticache - 0% implemented
@@ -1954,34 +1994,34 @@
 - [ ] update_network_profile
 - [ ] update_project
 
-## redshift - 20% implemented
+## redshift - 31% implemented
 - [ ] authorize_cluster_security_group_ingress
 - [ ] authorize_snapshot_access
 - [ ] copy_cluster_snapshot
 - [X] create_cluster
 - [X] create_cluster_parameter_group
 - [X] create_cluster_security_group
-- [ ] create_cluster_snapshot
+- [X] create_cluster_snapshot
 - [X] create_cluster_subnet_group
 - [ ] create_event_subscription
 - [ ] create_hsm_client_certificate
 - [ ] create_hsm_configuration
 - [ ] create_snapshot_copy_grant
-- [ ] create_tags
+- [X] create_tags
 - [X] delete_cluster
 - [X] delete_cluster_parameter_group
 - [X] delete_cluster_security_group
-- [ ] delete_cluster_snapshot
+- [X] delete_cluster_snapshot
 - [X] delete_cluster_subnet_group
 - [ ] delete_event_subscription
 - [ ] delete_hsm_client_certificate
 - [ ] delete_hsm_configuration
 - [ ] delete_snapshot_copy_grant
-- [ ] delete_tags
+- [X] delete_tags
 - [X] describe_cluster_parameter_groups
 - [ ] describe_cluster_parameters
 - [X] describe_cluster_security_groups
-- [ ] describe_cluster_snapshots
+- [X] describe_cluster_snapshots
 - [X] describe_cluster_subnet_groups
 - [ ] describe_cluster_versions
 - [X] describe_clusters
@@ -1998,7 +2038,7 @@
 - [ ] describe_resize
 - [ ] describe_snapshot_copy_grants
 - [ ] describe_table_restore_status
-- [ ] describe_tags
+- [X] describe_tags
 - [ ] disable_logging
 - [ ] disable_snapshot_copy
 - [ ] enable_logging
@@ -2013,7 +2053,7 @@
 - [ ] purchase_reserved_node_offering
 - [ ] reboot_cluster
 - [ ] reset_cluster_parameter_group
-- [ ] restore_from_cluster_snapshot
+- [X] restore_from_cluster_snapshot
 - [ ] restore_table_from_cluster_snapshot
 - [ ] revoke_cluster_security_group_ingress
 - [ ] revoke_snapshot_access
@@ -2061,11 +2101,11 @@
 - [ ] update_termination_protection
 - [ ] validate_template
 
-## iam - 44% implemented
+## iam - 46% implemented
 - [ ] add_client_id_to_open_id_connect_provider
 - [X] add_role_to_instance_profile
 - [X] add_user_to_group
-- [ ] attach_group_policy
+- [X] attach_group_policy
 - [X] attach_role_policy
 - [X] attach_user_policy
 - [ ] change_password
@@ -2105,7 +2145,7 @@
 - [X] delete_user
 - [X] delete_user_policy
 - [ ] delete_virtual_mfa_device
-- [ ] detach_group_policy
+- [X] detach_group_policy
 - [X] detach_role_policy
 - [X] detach_user_policy
 - [X] enable_mfa_device
@@ -2134,7 +2174,7 @@
 - [X] get_user_policy
 - [ ] list_access_keys
 - [X] list_account_aliases
-- [ ] list_attached_group_policies
+- [X] list_attached_group_policies
 - [X] list_attached_role_policies
 - [X] list_attached_user_policies
 - [ ] list_entities_for_policy
@@ -2231,16 +2271,22 @@
 
 ## waf - 0% implemented
 - [ ] create_byte_match_set
+- [ ] create_geo_match_set
 - [ ] create_ip_set
 - [ ] create_rate_based_rule
+- [ ] create_regex_match_set
+- [ ] create_regex_pattern_set
 - [ ] create_rule
 - [ ] create_size_constraint_set
 - [ ] create_sql_injection_match_set
 - [ ] create_web_acl
 - [ ] create_xss_match_set
 - [ ] delete_byte_match_set
+- [ ] delete_geo_match_set
 - [ ] delete_ip_set
 - [ ] delete_rate_based_rule
+- [ ] delete_regex_match_set
+- [ ] delete_regex_pattern_set
 - [ ] delete_rule
 - [ ] delete_size_constraint_set
 - [ ] delete_sql_injection_match_set
@@ -2249,9 +2295,12 @@
 - [ ] get_byte_match_set
 - [ ] get_change_token
 - [ ] get_change_token_status
+- [ ] get_geo_match_set
 - [ ] get_ip_set
 - [ ] get_rate_based_rule
 - [ ] get_rate_based_rule_managed_keys
+- [ ] get_regex_match_set
+- [ ] get_regex_pattern_set
 - [ ] get_rule
 - [ ] get_sampled_requests
 - [ ] get_size_constraint_set
@@ -2259,16 +2308,22 @@
 - [ ] get_web_acl
 - [ ] get_xss_match_set
 - [ ] list_byte_match_sets
+- [ ] list_geo_match_sets
 - [ ] list_ip_sets
 - [ ] list_rate_based_rules
+- [ ] list_regex_match_sets
+- [ ] list_regex_pattern_sets
 - [ ] list_rules
 - [ ] list_size_constraint_sets
 - [ ] list_sql_injection_match_sets
 - [ ] list_web_acls
 - [ ] list_xss_match_sets
 - [ ] update_byte_match_set
+- [ ] update_geo_match_set
 - [ ] update_ip_set
 - [ ] update_rate_based_rule
+- [ ] update_regex_match_set
+- [ ] update_regex_pattern_set
 - [ ] update_rule
 - [ ] update_size_constraint_set
 - [ ] update_sql_injection_match_set
@@ -2459,6 +2514,7 @@
 - [ ] create_streaming_distribution_with_tags
 - [ ] delete_cloud_front_origin_access_identity
 - [ ] delete_distribution
+- [ ] delete_service_linked_role
 - [ ] delete_streaming_distribution
 - [ ] get_cloud_front_origin_access_identity
 - [ ] get_cloud_front_origin_access_identity_config
@@ -2479,7 +2535,8 @@
 - [ ] update_distribution
 - [ ] update_streaming_distribution
 
-## elbv2 - 54% implemented
+## elbv2 - 50% implemented
+- [ ] add_listener_certificates
 - [ ] add_tags
 - [X] create_listener
 - [X] create_load_balancer
@@ -2491,6 +2548,7 @@
 - [X] delete_target_group
 - [X] deregister_targets
 - [ ] describe_account_limits
+- [ ] describe_listener_certificates
 - [X] describe_listeners
 - [ ] describe_load_balancer_attributes
 - [X] describe_load_balancers
@@ -2506,6 +2564,7 @@
 - [ ] modify_target_group
 - [ ] modify_target_group_attributes
 - [X] register_targets
+- [ ] remove_listener_certificates
 - [ ] remove_tags
 - [ ] set_ip_address_type
 - [X] set_rule_priorities
@@ -2705,28 +2764,29 @@
 - [ ] publish
 - [ ] update_thing_shadow
 
-## batch - 0% implemented
+## batch - 93% implemented
 - [ ] cancel_job
-- [ ] create_compute_environment
-- [ ] create_job_queue
-- [ ] delete_compute_environment
-- [ ] delete_job_queue
-- [ ] deregister_job_definition
-- [ ] describe_compute_environments
-- [ ] describe_job_definitions
-- [ ] describe_job_queues
-- [ ] describe_jobs
-- [ ] list_jobs
-- [ ] register_job_definition
-- [ ] submit_job
-- [ ] terminate_job
-- [ ] update_compute_environment
-- [ ] update_job_queue
+- [X] create_compute_environment
+- [X] create_job_queue
+- [X] delete_compute_environment
+- [X] delete_job_queue
+- [X] deregister_job_definition
+- [X] describe_compute_environments
+- [X] describe_job_definitions
+- [X] describe_job_queues
+- [X] describe_jobs
+- [X] list_jobs
+- [X] register_job_definition
+- [X] submit_job
+- [X] terminate_job
+- [X] update_compute_environment
+- [X] update_job_queue
 
 ## codecommit - 0% implemented
 - [ ] batch_get_repositories
 - [ ] create_branch
 - [ ] create_repository
+- [ ] delete_branch
 - [ ] delete_repository
 - [ ] get_blob
 - [ ] get_branch
@@ -3182,7 +3242,7 @@
 - [ ] put_scaling_policy
 - [ ] register_scalable_target
 
-## sqs - 41% implemented
+## sqs - 35% implemented
 - [ ] add_permission
 - [X] change_message_visibility
 - [ ] change_message_visibility_batch
@@ -3193,6 +3253,7 @@
 - [ ] get_queue_attributes
 - [ ] get_queue_url
 - [ ] list_dead_letter_source_queues
+- [ ] list_queue_tags
 - [X] list_queues
 - [X] purge_queue
 - [ ] receive_message
@@ -3200,6 +3261,8 @@
 - [X] send_message
 - [ ] send_message_batch
 - [ ] set_queue_attributes
+- [ ] tag_queue
+- [ ] untag_queue
 
 ## iot - 0% implemented
 - [ ] accept_certificate_transfer
@@ -3362,7 +3425,7 @@
 - [X] subscribe
 - [X] unsubscribe
 
-## ssm - 7% implemented
+## ssm - 8% implemented
 - [X] add_tags_to_resource
 - [ ] cancel_command
 - [ ] create_activation
@@ -3419,7 +3482,7 @@
 - [ ] get_maintenance_window_execution_task
 - [ ] get_maintenance_window_execution_task_invocation
 - [ ] get_maintenance_window_task
-- [ ] get_parameter
+- [X] get_parameter
 - [ ] get_parameter_history
 - [X] get_parameters
 - [ ] get_parameters_by_path
