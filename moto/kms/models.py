@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+import os
 import boto.kms
 from moto.core import BaseBackend, BaseModel
 from moto.core.utils import iso_8601_datetime_without_milliseconds
@@ -10,7 +11,7 @@ from datetime import datetime, timedelta
 
 class Key(BaseModel):
 
-    def __init__(self, policy, key_usage, description, region):
+    def __init__(self, policy, key_usage, description, tags, region):
         self.id = generate_key_id()
         self.policy = policy
         self.key_usage = key_usage
@@ -21,7 +22,7 @@ class Key(BaseModel):
         self.account_id = "0123456789012"
         self.key_rotation_status = False
         self.deletion_date = None
-        self.tags = {}
+        self.tags = tags or {}
 
     @property
     def physical_resource_id(self):
@@ -36,7 +37,7 @@ class Key(BaseModel):
             "KeyMetadata": {
                 "AWSAccountId": self.account_id,
                 "Arn": self.arn,
-                "CreationDate": datetime.strftime(datetime.utcnow(), "%Y-%m-%dT%H:%M:%SZ"),
+                "CreationDate": iso_8601_datetime_without_milliseconds(datetime.now()),
                 "Description": self.description,
                 "Enabled": self.enabled,
                 "KeyId": self.id,
@@ -60,6 +61,7 @@ class Key(BaseModel):
             policy=properties['KeyPolicy'],
             key_usage='ENCRYPT_DECRYPT',
             description=properties['Description'],
+            tags=properties.get('Tags'),
             region=region_name,
         )
         key.key_rotation_status = properties['EnableKeyRotation']
@@ -79,8 +81,8 @@ class KmsBackend(BaseBackend):
         self.keys = {}
         self.key_to_aliases = defaultdict(set)
 
-    def create_key(self, policy, key_usage, description, region):
-        key = Key(policy, key_usage, description, region)
+    def create_key(self, policy, key_usage, description, tags, region):
+        key = Key(policy, key_usage, description, tags, region)
         self.keys[key.id] = key
         return key
 
@@ -159,27 +161,38 @@ class KmsBackend(BaseBackend):
         return self.keys[self.get_key_id(key_id)].policy
 
     def disable_key(self, key_id):
-        if key_id in self.keys:
-            self.keys[key_id].enabled = False
-            self.keys[key_id].key_state = 'Disabled'
+        self.keys[key_id].enabled = False
+        self.keys[key_id].key_state = 'Disabled'
 
     def enable_key(self, key_id):
-        if key_id in self.keys:
-            self.keys[key_id].enabled = True
-            self.keys[key_id].key_state = 'Enabled'
+        self.keys[key_id].enabled = True
+        self.keys[key_id].key_state = 'Enabled'
 
     def cancel_key_deletion(self, key_id):
-        if key_id in self.keys:
-            self.keys[key_id].key_state = 'Disabled'
-            self.keys[key_id].deletion_date = None
+        self.keys[key_id].key_state = 'Disabled'
+        self.keys[key_id].deletion_date = None
 
     def schedule_key_deletion(self, key_id, pending_window_in_days):
-        if key_id in self.keys:
-            if 7 <= pending_window_in_days <= 30:
-                self.keys[key_id].enabled = False
-                self.keys[key_id].key_state = 'PendingDeletion'
-                self.keys[key_id].deletion_date = datetime.now() + timedelta(days=pending_window_in_days)
-                return iso_8601_datetime_without_milliseconds(self.keys[key_id].deletion_date)
+        if 7 <= pending_window_in_days <= 30:
+            self.keys[key_id].enabled = False
+            self.keys[key_id].key_state = 'PendingDeletion'
+            self.keys[key_id].deletion_date = datetime.now() + timedelta(days=pending_window_in_days)
+            return iso_8601_datetime_without_milliseconds(self.keys[key_id].deletion_date)
+
+    def generate_data_key(self, key_id, encryption_context, number_of_bytes, key_spec, grant_tokens):
+        key = self.keys[self.get_key_id(key_id)]
+
+        if key_spec:
+            if key_spec == 'AES_128':
+                bytes = 16
+            else:
+                bytes = 32
+        else:
+            bytes = number_of_bytes
+
+        plaintext = os.urandom(bytes)
+
+        return plaintext, key.arn
 
 
 kms_backends = {}

@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+import re
 import uuid
 from datetime import datetime
 from random import random, randint
@@ -7,10 +8,14 @@ import boto3
 import pytz
 from moto.core.exceptions import JsonRESTError
 from moto.core import BaseBackend, BaseModel
+from moto.core.utils import unix_time
 from moto.ec2 import ec2_backends
 from copy import copy
 
-from .exceptions import ServiceNotFoundException
+from .exceptions import (
+    ServiceNotFoundException,
+    TaskDefinitionNotFoundException
+)
 
 
 class BaseObject(BaseModel):
@@ -94,15 +99,22 @@ class Cluster(BaseObject):
             # no-op when nothing changed between old and new resources
             return original_resource
 
+    def get_cfn_attribute(self, attribute_name):
+        from moto.cloudformation.exceptions import UnformattedGetAttTemplateException
+        if attribute_name == 'Arn':
+            return self.arn
+        raise UnformattedGetAttTemplateException()
+
 
 class TaskDefinition(BaseObject):
 
-    def __init__(self, family, revision, container_definitions, volumes=None):
+    def __init__(self, family, revision, container_definitions, volumes=None, tags=None):
         self.family = family
         self.revision = revision
         self.arn = 'arn:aws:ecs:us-east-1:012345678910:task-definition/{0}:{1}'.format(
             family, revision)
         self.container_definitions = container_definitions
+        self.tags = tags if tags is not None else []
         if volumes is None:
             self.volumes = []
         else:
@@ -113,6 +125,7 @@ class TaskDefinition(BaseObject):
         response_object = self.gen_response_object()
         response_object['taskDefinitionArn'] = response_object['arn']
         del response_object['arn']
+        del response_object['tags']
         return response_object
 
     @property
@@ -219,9 +232,9 @@ class Service(BaseObject):
 
         for deployment in response_object['deployments']:
             if isinstance(deployment['createdAt'], datetime):
-                deployment['createdAt'] = deployment['createdAt'].isoformat()
+                deployment['createdAt'] = unix_time(deployment['createdAt'].replace(tzinfo=None))
             if isinstance(deployment['updatedAt'], datetime):
-                deployment['updatedAt'] = deployment['updatedAt'].isoformat()
+                deployment['updatedAt'] = unix_time(deployment['updatedAt'].replace(tzinfo=None))
 
         return response_object
 
@@ -270,6 +283,12 @@ class Service(BaseObject):
                 cluster_name, new_service_name, task_definition, desired_count)
         else:
             return ecs_backend.update_service(cluster_name, service_name, task_definition, desired_count)
+
+    def get_cfn_attribute(self, attribute_name):
+        from moto.cloudformation.exceptions import UnformattedGetAttTemplateException
+        if attribute_name == 'Name':
+            return self.name
+        raise UnformattedGetAttTemplateException()
 
 
 class ContainerInstance(BaseObject):
@@ -358,6 +377,20 @@ class ContainerInstance(BaseObject):
         return formatted_attr
 
 
+class ClusterFailure(BaseObject):
+    def __init__(self, reason, cluster_name):
+        self.reason = reason
+        self.arn = "arn:aws:ecs:us-east-1:012345678910:cluster/{0}".format(
+            cluster_name)
+
+    @property
+    def response_object(self):
+        response_object = self.gen_response_object()
+        response_object['reason'] = self.reason
+        response_object['arn'] = self.arn
+        return response_object
+
+
 class ContainerInstanceFailure(BaseObject):
 
     def __init__(self, reason, container_instance_id):
@@ -396,11 +429,9 @@ class EC2ContainerServiceBackend(BaseBackend):
             revision = int(revision)
         else:
             family = task_definition_name
-            revision = len(self.task_definitions.get(family, []))
+            revision = self._get_last_task_definition_revision_id(family)
 
-        if family in self.task_definitions and 0 < revision <= len(self.task_definitions[family]):
-            return self.task_definitions[family][revision - 1]
-        elif family in self.task_definitions and revision == -1:
+        if family in self.task_definitions and revision in self.task_definitions[family]:
             return self.task_definitions[family][revision]
         else:
             raise Exception(
@@ -419,6 +450,7 @@ class EC2ContainerServiceBackend(BaseBackend):
 
     def describe_clusters(self, list_clusters_name=None):
         list_clusters = []
+        failures = []
         if list_clusters_name is None:
             if 'default' in self.clusters:
                 list_clusters.append(self.clusters['default'].response_object)
@@ -429,9 +461,8 @@ class EC2ContainerServiceBackend(BaseBackend):
                     list_clusters.append(
                         self.clusters[cluster_name].response_object)
                 else:
-                    raise Exception(
-                        "{0} is not a cluster".format(cluster_name))
-        return list_clusters
+                    failures.append(ClusterFailure('MISSING', cluster_name))
+        return list_clusters, failures
 
     def delete_cluster(self, cluster_str):
         cluster_name = cluster_str.split('/')[-1]
@@ -440,15 +471,16 @@ class EC2ContainerServiceBackend(BaseBackend):
         else:
             raise Exception("{0} is not a cluster".format(cluster_name))
 
-    def register_task_definition(self, family, container_definitions, volumes):
+    def register_task_definition(self, family, container_definitions, volumes, tags=None):
         if family in self.task_definitions:
-            revision = len(self.task_definitions[family]) + 1
+            last_id = self._get_last_task_definition_revision_id(family)
+            revision = (last_id or 0) + 1
         else:
-            self.task_definitions[family] = []
+            self.task_definitions[family] = {}
             revision = 1
         task_definition = TaskDefinition(
-            family, revision, container_definitions, volumes)
-        self.task_definitions[family].append(task_definition)
+            family, revision, container_definitions, volumes, tags)
+        self.task_definitions[family][revision] = task_definition
 
         return task_definition
 
@@ -458,16 +490,18 @@ class EC2ContainerServiceBackend(BaseBackend):
         """
         task_arns = []
         for task_definition_list in self.task_definitions.values():
-            task_arns.extend(
-                [task_definition.arn for task_definition in task_definition_list])
+            task_arns.extend([
+                task_definition.arn
+                for task_definition in task_definition_list.values()
+            ])
         return task_arns
 
     def deregister_task_definition(self, task_definition_str):
         task_definition_name = task_definition_str.split('/')[-1]
         family, revision = task_definition_name.split(':')
         revision = int(revision)
-        if family in self.task_definitions and 0 < revision <= len(self.task_definitions[family]):
-            return self.task_definitions[family].pop(revision - 1)
+        if family in self.task_definitions and revision in self.task_definitions[family]:
+            return self.task_definitions[family].pop(revision)
         else:
             raise Exception(
                 "{0} is not a task_definition".format(task_definition_name))
@@ -673,12 +707,15 @@ class EC2ContainerServiceBackend(BaseBackend):
 
         return service
 
-    def list_services(self, cluster_str):
+    def list_services(self, cluster_str, scheduling_strategy=None):
         cluster_name = cluster_str.split('/')[-1]
         service_arns = []
         for key, value in self.services.items():
             if cluster_name + ':' in key:
-                service_arns.append(self.services[key].arn)
+                service = self.services[key]
+                if scheduling_strategy is None or service.scheduling_strategy == scheduling_strategy:
+                    service_arns.append(service.arn)
+
         return sorted(service_arns)
 
     def describe_services(self, cluster_str, service_names_or_arns):
@@ -920,6 +957,29 @@ class EC2ContainerServiceBackend(BaseBackend):
                 continue
 
             yield task_fam
+
+    def list_tags_for_resource(self, resource_arn):
+        """Currently only implemented for task definitions"""
+        match = re.match(
+            "^arn:aws:ecs:(?P<region>[^:]+):(?P<account_id>[^:]+):(?P<service>[^:]+)/(?P<id>.*)$",
+            resource_arn)
+        if not match:
+            raise JsonRESTError('InvalidParameterException', 'The ARN provided is invalid.')
+
+        service = match.group("service")
+        if service == "task-definition":
+            for task_definition in self.task_definitions.values():
+                for revision in task_definition.values():
+                    if revision.arn == resource_arn:
+                        return revision.tags
+            else:
+                raise TaskDefinitionNotFoundException()
+        raise NotImplementedError()
+
+    def _get_last_task_definition_revision_id(self, family):
+        definitions = self.task_definitions.get(family, {})
+        if definitions:
+            return max(definitions.keys())
 
 
 available_regions = boto3.session.Session().get_available_regions("ecs")
