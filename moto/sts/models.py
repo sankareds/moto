@@ -22,7 +22,7 @@ class AssumedRole(BaseModel):
 
     def __init__(self, role_session_name, role_arn, policy, duration, external_id):
         self.session_name = role_session_name
-        self.arn = role_arn
+        self.arn = role_arn + "/" + role_session_name
         self.policy = policy
         now = datetime.datetime.utcnow()
         self.expiration = now + datetime.timedelta(seconds=duration)
@@ -35,6 +35,10 @@ class AssumedRole(BaseModel):
     @property
     def expiration_ISO8601(self):
         return iso_8601_datetime_with_milliseconds(self.expiration)
+
+    @property
+    def user_id(self):
+        return self.assumed_role_id + ":" + self.session_name
 
 
 class STSBackend(BaseBackend):
@@ -57,6 +61,12 @@ class STSBackend(BaseBackend):
 
     def assume_role_with_web_identity(self, **kwargs):
         return self.assume_role(**kwargs)
+
+    def get_assumed_role_from_access_key(self, access_key_id):
+        for assumed_role in self.assumed_roles:
+            if assumed_role.access_key_id == access_key_id:
+                return assumed_role
+        return None
 
 
 sts_backend = STSBackend()
