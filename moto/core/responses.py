@@ -350,7 +350,7 @@ class BaseResponse(_TemplateEnvironmentMixin, ActionAuthenticatorMixin):
             return 404, headers, ''
 
         raise NotImplementedError(
-            "The {0} action has not been implemented".format(action))
+            "The {0} action has not been implemented in class {1}".format(action, self.__class__))
 
     @staticmethod
     def _send_response(headers, response):
