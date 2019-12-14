@@ -9,22 +9,9 @@
 - [ ] import_certificate
 - [ ] list_certificates
 - [ ] list_tags_for_certificate
-<<<<<<< HEAD
-<<<<<<< HEAD
 - [X] remove_tags_from_certificate
-<<<<<<< HEAD
 - [ ] renew_certificate
-=======
->>>>>>> Updating implementation coverage
 - [X] request_certificate
-=======
-- [ ] remove_tags_from_certificate
-- [ ] request_certificate
->>>>>>> Updating implementation coverage
-=======
-- [X] remove_tags_from_certificate
-- [X] request_certificate
->>>>>>> Updating implementation coverage
 - [ ] resend_validation_email
 - [ ] update_certificate_options
 
@@ -600,20 +587,8 @@
 - [ ] record_lifecycle_action_heartbeat
 - [ ] resume_processes
 - [X] set_desired_capacity
-<<<<<<< HEAD
-<<<<<<< HEAD
 - [X] set_instance_health
-<<<<<<< HEAD
 - [X] set_instance_protection
-=======
-=======
-- [ ] set_instance_health
->>>>>>> Updating implementation coverage
-=======
-- [X] set_instance_health
->>>>>>> Updating implementation coverage
-- [ ] set_instance_protection
->>>>>>> Updating implementation coverage
 - [X] suspend_processes
 - [ ] terminate_instance_in_auto_scaling_group
 - [X] update_auto_scaling_group
@@ -1085,19 +1060,8 @@
 ## cloudwatch
 39% implemented
 - [X] delete_alarms
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 - [ ] delete_anomaly_detector
-=======
->>>>>>> Updating implementation coverage
 - [X] delete_dashboards
-=======
-- [ ] delete_dashboards
->>>>>>> Updating implementation coverage
-=======
-- [X] delete_dashboards
->>>>>>> Updating implementation coverage
 - [ ] describe_alarm_history
 - [ ] describe_alarms
 - [ ] describe_alarms_for_metric
@@ -1110,34 +1074,14 @@
 - [ ] get_metric_widget_image
 - [X] list_dashboards
 - [ ] list_metrics
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 - [ ] list_tags_for_resource
 - [ ] put_anomaly_detector
-=======
->>>>>>> Updating implementation coverage
 - [X] put_dashboard
 - [X] put_metric_alarm
 - [X] put_metric_data
 - [X] set_alarm_state
-<<<<<<< HEAD
 - [ ] tag_resource
 - [ ] untag_resource
-=======
->>>>>>> Updating implementation coverage
-=======
-- [ ] put_dashboard
-- [X] put_metric_alarm
-- [X] put_metric_data
-- [ ] set_alarm_state
->>>>>>> Updating implementation coverage
-=======
-- [X] put_dashboard
-- [X] put_metric_alarm
-- [X] put_metric_data
-- [X] set_alarm_state
->>>>>>> Updating implementation coverage
 
 ## codebuild
 0% implemented
@@ -2515,33 +2459,13 @@
 - [ ] untag_resource
 - [ ] upload_layer_part
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 ## ecs
 66% implemented
 - [X] create_cluster
 - [X] create_service
 - [ ] create_task_set
 - [ ] delete_account_setting
-=======
-## ecs - 87% implemented
-- [X] create_cluster
-- [X] create_service
->>>>>>> Updating implementation coverage
 - [X] delete_attributes
-=======
-## ecs - 74% implemented
-- [X] create_cluster
-- [X] create_service
-- [ ] delete_attributes
->>>>>>> Updating implementation coverage
-=======
-## ecs - 87% implemented
-- [X] create_cluster
-- [X] create_service
-- [X] delete_attributes
->>>>>>> Updating implementation coverage
 - [X] delete_cluster
 - [X] delete_service
 - [ ] delete_task_set
@@ -2554,48 +2478,18 @@
 - [ ] describe_task_sets
 - [X] describe_tasks
 - [ ] discover_poll_endpoint
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 - [ ] list_account_settings
-=======
->>>>>>> Updating implementation coverage
 - [X] list_attributes
 - [X] list_clusters
 - [X] list_container_instances
 - [X] list_services
-<<<<<<< HEAD
 - [X] list_tags_for_resource
 - [X] list_task_definition_families
 - [X] list_task_definitions
 - [X] list_tasks
 - [ ] put_account_setting
 - [ ] put_account_setting_default
-=======
-- [X] list_task_definition_families
-- [X] list_task_definitions
-- [X] list_tasks
->>>>>>> Updating implementation coverage
 - [X] put_attributes
-=======
-- [ ] list_attributes
-- [X] list_clusters
-- [X] list_container_instances
-=======
-- [X] list_attributes
-- [X] list_clusters
-- [X] list_container_instances
->>>>>>> Updating implementation coverage
-- [X] list_services
-- [X] list_task_definition_families
-- [X] list_task_definitions
-- [X] list_tasks
-<<<<<<< HEAD
-- [ ] put_attributes
->>>>>>> Updating implementation coverage
-=======
-- [X] put_attributes
->>>>>>> Updating implementation coverage
 - [X] register_container_instance
 - [X] register_task_definition
 - [X] run_task
@@ -2800,20 +2694,8 @@
 - [ ] set_load_balancer_policies_for_backend_server
 - [X] set_load_balancer_policies_of_listener
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 ## elbv2
 70% implemented
-=======
-## elbv2 - 70% implemented
->>>>>>> Updating implementation coverage
-=======
-## elbv2 - 50% implemented
->>>>>>> Updating implementation coverage
-=======
-## elbv2 - 70% implemented
->>>>>>> Updating implementation coverage
 - [ ] add_listener_certificates
 - [ ] add_tags
 - [X] create_listener
@@ -2905,7 +2787,6 @@
 - [ ] remove_tags
 - [ ] start_elasticsearch_service_software_update
 - [ ] update_elasticsearch_domain_config
-<<<<<<< HEAD
 - [ ] upgrade_elasticsearch_domain
 
 ## events
@@ -2920,20 +2801,6 @@
 - [X] describe_event_bus
 - [ ] describe_event_source
 - [ ] describe_partner_event_source
-=======
-
-## events - 100% implemented
-- [X] delete_rule
-<<<<<<< HEAD
-<<<<<<< HEAD
-- [X] describe_event_bus
->>>>>>> Updating implementation coverage
-=======
-- [ ] describe_event_bus
->>>>>>> Updating implementation coverage
-=======
-- [X] describe_event_bus
->>>>>>> Updating implementation coverage
 - [X] describe_rule
 - [X] disable_rule
 - [X] enable_rule
@@ -2945,22 +2812,9 @@
 - [X] list_rules
 - [ ] list_tags_for_resource
 - [X] list_targets_by_rule
-<<<<<<< HEAD
-<<<<<<< HEAD
 - [X] put_events
-<<<<<<< HEAD
 - [ ] put_partner_events
-=======
->>>>>>> Updating implementation coverage
 - [X] put_permission
-=======
-- [ ] put_events
-- [ ] put_permission
->>>>>>> Updating implementation coverage
-=======
-- [X] put_events
-- [X] put_permission
->>>>>>> Updating implementation coverage
 - [X] put_rule
 - [X] put_targets
 - [X] remove_permission
@@ -3535,20 +3389,8 @@
 - [X] delete_user
 - [ ] delete_user_permissions_boundary
 - [X] delete_user_policy
-<<<<<<< HEAD
 - [X] delete_virtual_mfa_device
-=======
-- [ ] delete_virtual_mfa_device
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> Updating implementation coverage
 - [X] detach_group_policy
-=======
-- [ ] detach_group_policy
->>>>>>> Updating implementation coverage
-=======
-- [X] detach_group_policy
->>>>>>> Updating implementation coverage
 - [X] detach_role_policy
 - [X] detach_user_policy
 - [X] enable_mfa_device
@@ -4328,23 +4170,11 @@
 - [ ] attach_load_balancer_tls_certificate
 - [ ] attach_static_ip
 - [ ] close_instance_public_ports
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 - [ ] copy_snapshot
 - [ ] create_cloud_formation_stack
-=======
->>>>>>> Updating implementation coverage
 - [ ] create_disk
 - [ ] create_disk_from_snapshot
 - [ ] create_disk_snapshot
-=======
->>>>>>> Updating implementation coverage
-=======
-- [ ] create_disk
-- [ ] create_disk_from_snapshot
-- [ ] create_disk_snapshot
->>>>>>> Updating implementation coverage
 - [ ] create_domain
 - [ ] create_domain_entry
 - [ ] create_instance_snapshot
@@ -4380,23 +4210,11 @@
 - [ ] get_auto_snapshots
 - [ ] get_blueprints
 - [ ] get_bundles
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 - [ ] get_cloud_formation_stack_records
-=======
->>>>>>> Updating implementation coverage
-=======
->>>>>>> Updating implementation coverage
 - [ ] get_disk
 - [ ] get_disk_snapshot
 - [ ] get_disk_snapshots
 - [ ] get_disks
-<<<<<<< HEAD
-=======
->>>>>>> Updating implementation coverage
-=======
->>>>>>> Updating implementation coverage
 - [ ] get_domain
 - [ ] get_domains
 - [ ] get_export_snapshot_records
@@ -4475,26 +4293,12 @@
 - [ ] describe_resource_policies
 - [ ] describe_subscription_filters
 - [ ] disassociate_kms_key
-<<<<<<< HEAD
-<<<<<<< HEAD
 - [X] filter_log_events
 - [X] get_log_events
-<<<<<<< HEAD
 - [ ] get_log_group_fields
 - [ ] get_log_record
 - [ ] get_query_results
 - [X] list_tags_log_group
-=======
-=======
-- [ ] filter_log_events
-- [ ] get_log_events
->>>>>>> Updating implementation coverage
-=======
-- [X] filter_log_events
-- [X] get_log_events
->>>>>>> Updating implementation coverage
-- [ ] list_tags_log_group
->>>>>>> Updating implementation coverage
 - [ ] put_destination
 - [ ] put_destination_policy
 - [X] put_log_events
@@ -5215,7 +5019,6 @@
 - [ ] update_sms_template
 - [ ] update_voice_channel
 
-<<<<<<< HEAD
 ## pinpoint-email
 0% implemented
 - [ ] create_configuration_set
@@ -5261,7 +5064,6 @@
 - [ ] untag_resource
 - [ ] update_configuration_set_event_destination
 
-<<<<<<< HEAD
 ## pinpoint-sms-voice
 0% implemented
 - [ ] create_configuration_set
@@ -5286,22 +5088,10 @@
 
 ## pricing
 0% implemented
-=======
-## polly - 83% implemented
-- [X] delete_lexicon
-- [X] describe_voices
-- [X] get_lexicon
-- [X] list_lexicons
-- [X] put_lexicon
-- [ ] synthesize_speech
-
-## pricing - 0% implemented
->>>>>>> Updating implementation coverage
 - [ ] describe_services
 - [ ] get_attribute_values
 - [ ] get_products
 
-<<<<<<< HEAD
 ## qldb
 0% implemented
 - [ ] create_ledger
@@ -5363,37 +5153,8 @@
 - [ ] untag_resource
 - [ ] update_resource_share
 
-<<<<<<< HEAD
 ## rds
 0% implemented
-=======
-=======
-## polly - 0% implemented
-- [ ] delete_lexicon
-- [ ] describe_voices
-- [ ] get_lexicon
-- [ ] list_lexicons
-- [ ] put_lexicon
-- [ ] synthesize_speech
-
->>>>>>> Updating implementation coverage
-=======
-## polly - 83% implemented
-- [X] delete_lexicon
-- [X] describe_voices
-- [X] get_lexicon
-- [X] list_lexicons
-- [X] put_lexicon
-- [ ] synthesize_speech
-
-## pricing - 0% implemented
-- [ ] describe_services
-- [ ] get_attribute_values
-- [ ] get_products
-
->>>>>>> Updating implementation coverage
-## rds - 0% implemented
->>>>>>> Updating implementation coverage
 - [ ] add_role_to_db_cluster
 - [ ] add_role_to_db_instance
 - [ ] add_source_identifier_to_subscription
@@ -5599,19 +5360,8 @@
 - [ ] purchase_reserved_node_offering
 - [ ] reboot_cluster
 - [ ] reset_cluster_parameter_group
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 - [ ] resize_cluster
-=======
->>>>>>> Updating implementation coverage
 - [X] restore_from_cluster_snapshot
-=======
-- [ ] restore_from_cluster_snapshot
->>>>>>> Updating implementation coverage
-=======
-- [X] restore_from_cluster_snapshot
->>>>>>> Updating implementation coverage
 - [ ] restore_table_from_cluster_snapshot
 - [ ] revoke_cluster_security_group_ingress
 - [ ] revoke_snapshot_access
@@ -5664,31 +5414,19 @@
 - [ ] list_group_resources
 - [X] list_groups
 - [ ] search_resources
-<<<<<<< HEAD
 - [X] tag
 - [X] untag
 - [X] update_group
 - [X] update_group_query
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 ## resourcegroupstaggingapi
 60% implemented
-=======
-- [ ] tag
-- [ ] untag
-- [ ] update_group
-- [ ] update_group_query
-
-## resourcegroupstaggingapi - 60% implemented
->>>>>>> Updating implementation coverage
 - [X] get_resources
 - [X] get_tag_keys
 - [X] get_tag_values
 - [ ] tag_resources
 - [ ] untag_resources
 
-<<<<<<< HEAD
 ## robomaker
 0% implemented
 - [ ] batch_describe_simulation_job
@@ -5730,29 +5468,6 @@
 
 ## route53
 12% implemented
-=======
-## route53 - 12% implemented
->>>>>>> Updating implementation coverage
-=======
-## resourcegroupstaggingapi - 0% implemented
-- [ ] get_resources
-- [ ] get_tag_keys
-- [ ] get_tag_values
-- [ ] tag_resources
-- [ ] untag_resources
-
-## route53 - 13% implemented
->>>>>>> Updating implementation coverage
-=======
-## resourcegroupstaggingapi - 60% implemented
-- [X] get_resources
-- [X] get_tag_keys
-- [X] get_tag_values
-- [ ] tag_resources
-- [ ] untag_resources
-
-## route53 - 12% implemented
->>>>>>> Updating implementation coverage
 - [ ] associate_vpc_with_hosted_zone
 - [ ] change_resource_record_sets
 - [X] change_tags_for_resource
@@ -5887,23 +5602,8 @@
 - [ ] get_bucket_accelerate_configuration
 - [X] get_bucket_acl
 - [ ] get_bucket_analytics_configuration
-<<<<<<< HEAD
 - [X] get_bucket_cors
 - [ ] get_bucket_encryption
-=======
-- [ ] get_bucket_cors
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> Updating implementation coverage
-=======
-- [ ] get_bucket_encryption
->>>>>>> Updating implementation coverage
-=======
->>>>>>> Updating implementation coverage
-=======
-- [ ] get_bucket_encryption
->>>>>>> Updating implementation coverage
 - [ ] get_bucket_inventory_configuration
 - [X] get_bucket_lifecycle
 - [X] get_bucket_lifecycle_configuration
@@ -6555,30 +6255,10 @@
 - [X] delete_message
 - [ ] delete_message_batch
 - [X] delete_queue
-<<<<<<< HEAD
-<<<<<<< HEAD
 - [X] get_queue_attributes
 - [X] get_queue_url
 - [X] list_dead_letter_source_queues
 - [X] list_queue_tags
-=======
-- [ ] get_queue_attributes
-- [ ] get_queue_url
-- [X] list_dead_letter_source_queues
-=======
-- [ ] get_queue_attributes
-- [X] get_queue_url
-- [X] list_dead_letter_source_queues
-<<<<<<< HEAD
-=======
-- [ ] get_queue_url
-- [ ] list_dead_letter_source_queues
->>>>>>> Updating implementation coverage
->>>>>>> Updating implementation coverage
-=======
->>>>>>> Updating implementation coverage
-- [ ] list_queue_tags
->>>>>>> Updating implementation coverage
 - [X] list_queues
 - [X] purge_queue
 - [ ] receive_message
@@ -6660,23 +6340,10 @@
 - [ ] get_maintenance_window_execution_task
 - [ ] get_maintenance_window_execution_task_invocation
 - [ ] get_maintenance_window_task
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 - [ ] get_ops_item
 - [ ] get_ops_summary
 - [X] get_parameter
 - [X] get_parameter_history
-=======
-- [X] get_parameter
-=======
-- [ ] get_parameter
->>>>>>> Updating implementation coverage
-=======
-- [X] get_parameter
->>>>>>> Updating implementation coverage
-- [ ] get_parameter_history
->>>>>>> Updating implementation coverage
 - [X] get_parameters
 - [X] get_parameters_by_path
 - [ ] get_patch_baseline
@@ -6745,21 +6412,9 @@
 - [ ] delete_activity
 - [X] delete_state_machine
 - [ ] describe_activity
-<<<<<<< HEAD
 - [X] describe_execution
 - [X] describe_state_machine
-=======
-- [ ] describe_execution
-- [ ] describe_state_machine
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> Updating implementation coverage
 - [ ] describe_state_machine_for_execution
-=======
->>>>>>> Updating implementation coverage
-=======
-- [ ] describe_state_machine_for_execution
->>>>>>> Updating implementation coverage
 - [ ] get_activity_task
 - [ ] get_execution_history
 - [ ] list_activities
@@ -6769,23 +6424,11 @@
 - [ ] send_task_failure
 - [ ] send_task_heartbeat
 - [ ] send_task_success
-<<<<<<< HEAD
 - [X] start_execution
 - [X] stop_execution
 - [ ] tag_resource
 - [ ] untag_resource
-=======
-- [ ] start_execution
-- [ ] stop_execution
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> Updating implementation coverage
 - [ ] update_state_machine
-=======
->>>>>>> Updating implementation coverage
-=======
-- [ ] update_state_machine
->>>>>>> Updating implementation coverage
 
 ## storagegateway
 0% implemented

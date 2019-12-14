@@ -3,8 +3,8 @@ from datetime import datetime, timedelta
 import json
 import yaml
 import uuid
+import boto3
 
-import boto.cloudformation
 from moto.compat import OrderedDict
 from moto.core import BaseBackend, BaseModel
 
@@ -717,5 +717,5 @@ class CloudFormationBackend(BaseBackend):
 
 
 cloudformation_backends = {}
-for region in boto.cloudformation.regions():
-    cloudformation_backends[region.name] = CloudFormationBackend()
+for region in boto3.Session().get_available_regions("cloudformation"):
+    cloudformation_backends[region] = CloudFormationBackend()
