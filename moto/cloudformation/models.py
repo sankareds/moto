@@ -239,6 +239,10 @@ class FakeStack(BaseModel):
         self.cross_stack_resources = cross_stack_resources or {}
         self.resource_map = self._create_resource_map()
         self.output_map = self._create_output_map()
+
+    def initialize_resources(self):
+        self.resource_map.create()
+        self.output_map.create()
         self._add_stack_event("CREATE_COMPLETE")
         self.status = "CREATE_COMPLETE"
 
@@ -252,12 +256,14 @@ class FakeStack(BaseModel):
             self.template_dict,
             self.cross_stack_resources,
         )
-        resource_map.create()
+        # Note: resource initialization removed from here and moved into initialize_resources() instead
+        # resource_map.create()
         return resource_map
 
     def _create_output_map(self):
         output_map = OutputMap(self.resource_map, self.template_dict, self.stack_id)
-        output_map.create()
+        # Note: resource initialization removed from here and moved into initialize_resources() instead
+        # output_map.create()
         return output_map
 
     def _add_stack_event(
@@ -545,6 +551,10 @@ class CloudFormationBackend(BaseBackend):
             create_change_set=create_change_set,
         )
         self.stacks[stack_id] = new_stack
+
+        # Note: we're first adding the new stack to self.stacks, then initialize its resources
+        new_stack.initialize_resources()
+
         self._validate_export_uniqueness(new_stack)
         for export in new_stack.exports:
             self.exports[export.name] = export
